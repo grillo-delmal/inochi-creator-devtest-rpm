@@ -1,6 +1,6 @@
 %define inochi_creator_ver 0.8.5
-%define inochi_creator_dist 4
-%define inochi_creator_short 1b1ad5a
+%define inochi_creator_dist 5
+%define inochi_creator_short 0c59048
 
 %define inochi_creator_suffix ^%{inochi_creator_dist}.git%{inochi_creator_short}
 
