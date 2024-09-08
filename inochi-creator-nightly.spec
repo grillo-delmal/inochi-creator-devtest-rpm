@@ -1,0 +1,137 @@
+%define inochi_creator_ver 0.8.5
+%define inochi_creator_dist 4
+%define inochi_creator_short 1b1ad5a
+
+%define inochi_creator_suffix ^%{inochi_creator_dist}.git%{inochi_creator_short}
+
+Name:           inochi-creator-nightly
+Version:        %{inochi_creator_ver}%{?inochi_creator_suffix:}
+Release:        %autorelease
+Summary:        Tool to create and edit Inochi2D puppets
+
+# Bundled lib licenses
+##   bcaa licenses: BSL-1.0
+##   bindbc-loader licenses: BSL-1.0
+##   bindbc-sdl licenses: BSL-1.0
+##   dcv licenses: BSL-1.0
+##   ddbus licenses: MIT
+##   dportals licenses: BSD-2-Clause
+##   dunit licenses: MIT
+##   dxml licenses: BSL-1.0
+##   facetrack-d licenses: BSD-2-Clause
+##   fghj licenses: BSL-1.0
+##   i18n-d licenses: BSD-2-Clause
+##   i2d-imgui licenses: BSL-1.0 and MIT
+##   i2d-opengl licenses: BSL-1.0
+##   imagefmt licenses: BSD-2-Clause
+##   inmath licenses: BSD-2-Clause
+##   inochi2d licenses: BSD-2-Clause
+##   kra-d licenses: BSD-2-Clause
+##   mir-algorithm licenses: Apache-2.0
+##   mir-core licenses: Apache-2.0
+##   mir-linux-kernel licenses: BSL-1.0
+##   mir-random licenses: Apache-2.0
+##   psd-d licenses: BSD-2-Clause
+##   silly licenses: ISC
+##   tinyfiledialogs licenses: Zlib
+##   vmc-d licenses: BSD-2-Clause
+License:        BSD-2-Clause and Apache-2.0 and BSL-1.0 and ISC and MIT and Zlib
+
+URL:            https://github.com/grillo-delmal/inochi-creator-nightly
+
+Source0:        https://github.com/grillo-delmal/inochi-creator-nightly/releases/download/nightly/inochi-creator-source.zip
+Source1:        inochi-creator-nightly.desktop
+Source2:        inochi-creator-nightly.appdata.xml
+Source3:        dub.selections.json
+Source4:        icon.png
+
+# dlang
+BuildRequires:  ldc
+BuildRequires:  dub
+BuildRequires:  jq
+
+BuildRequires:  desktop-file-utils
+BuildRequires:  libappstream-glib
+BuildRequires:  git
+
+#dportals reqs
+BuildRequires:       dbus-devel
+
+#i2d-imgui reqs
+BuildRequires:       cmake
+BuildRequires:       gcc
+BuildRequires:       gcc-c++
+BuildRequires:       freetype-devel
+BuildRequires:       SDL2-devel
+
+Requires:       hicolor-icon-theme
+
+#dportals deps
+Requires:       dbus
+
+#i2d-imgui deps
+Requires:       libstdc++
+Requires:       freetype
+Requires:       SDL2
+
+
+%description
+Inochi2D is a framework for realtime 2D puppet animation which can be used for VTubing, 
+game development and digital animation. 
+Inochi Creator is a tool that lets you create and edit Inochi2D puppets.
+This is an unbranded build, unsupported by the official project.
+This is a nightly build of Inochi Creator!
+Inochi Creator may crash unexpectedly and you will likely encounter bugs.
+Make sure to save and back up your work often!
+
+%prep
+%setup -c
+
+jq "map(.path = ([\"$(pwd)\"] + (.path | split(\"/\"))[-4:] | join(\"/\")) )" <<<$(<.dub/packages/local-packages.json) > .dub/packages/local-packages.linux.json
+rm .dub/packages/local-packages.json
+mv .dub/packages/local-packages.linux.json .dub/packages/local-packages.json
+dub add-local .flatpak-dub/semver/*/semver
+dub add-local .flatpak-dub/gitver/*/gitver
+
+%build
+export DFLAGS="%{_d_optflags}"
+
+# Build metadata
+dub build --skip-registry=all --compiler=ldc2 --config=meta
+
+# Build the project, with its main file included, without unittests
+dub build --skip-registry=all --compiler=ldc2 --config=barebones --build=debug
+
+
+%install
+install -d ${RPM_BUILD_ROOT}%{_bindir}
+install -p ./out/inochi-creator ${RPM_BUILD_ROOT}%{_bindir}/inochi-creator-nightly
+
+install -d ${RPM_BUILD_ROOT}%{_datadir}/applications/
+install -p -m 644 %SOURCE1 ${RPM_BUILD_ROOT}%{_datadir}/applications/inochi-creator-nightly.desktop
+desktop-file-validate \
+    ${RPM_BUILD_ROOT}%{_datadir}/applications/inochi-creator-nightly.desktop
+
+install -d ${RPM_BUILD_ROOT}%{_metainfodir}/
+install -p -m 644 %SOURCE2 ${RPM_BUILD_ROOT}%{_metainfodir}/inochi-creator-nightly.appdata.xml
+appstream-util validate-relax --nonet \
+    ${RPM_BUILD_ROOT}%{_metainfodir}/inochi-creator-nightly.appdata.xml
+
+install -d $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/256x256/apps/
+install -p -m 644 %{SOURCE4} $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/256x256/apps/inochi-creator-nightly.png
+
+install -d ${RPM_BUILD_ROOT}%{_datadir}/inochi-creator-nightly/
+install -p -m 644 %SOURCE3 ${RPM_BUILD_ROOT}%{_datadir}/inochi-creator-nightly/dub.selections.json
+
+
+%files
+%license LICENSE
+%{_bindir}/inochi-creator-nightly
+%{_metainfodir}/inochi-creator-nightly.appdata.xml
+%{_datadir}/applications/inochi-creator-nightly.desktop
+%{_datadir}/icons/hicolor/256x256/apps/inochi-creator-nightly.png
+%{_datadir}/inochi-creator-nightly/dub.selections.json
+
+
+%changelog
+%autochangelog
