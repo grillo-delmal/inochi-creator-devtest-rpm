@@ -4,7 +4,7 @@
 
 %define inochi_creator_suffix ^%{inochi_creator_dist}.git%{inochi_creator_short}
 
-Name:           inochi-creator-nightly
+Name:           inochi-creator-devtest
 Version:        %{inochi_creator_ver}%{?inochi_creator_suffix:}
 Release:        %autorelease
 Summary:        Tool to create and edit Inochi2D puppets
@@ -37,11 +37,11 @@ Summary:        Tool to create and edit Inochi2D puppets
 ##   vmc-d licenses: BSD-2-Clause
 License:        BSD-2-Clause and Apache-2.0 and BSL-1.0 and ISC and MIT and Zlib
 
-URL:            https://github.com/grillo-delmal/inochi-creator-nightly
+URL:            https://github.com/grillo-delmal/inochi-creator-devtest
 
-Source0:        https://github.com/grillo-delmal/inochi-creator-nightly/releases/download/nightly/inochi-creator-source.zip
-Source1:        inochi-creator-nightly.desktop
-Source2:        inochi-creator-nightly.appdata.xml
+Source0:        https://github.com/grillo-delmal/inochi-creator-devtest/releases/download/nightly/inochi-creator-source.zip
+Source1:        inochi-creator-devtest.desktop
+Source2:        inochi-creator-devtest.appdata.xml
 Source3:        dub.selections.json
 Source4:        icon.png
 
@@ -76,13 +76,9 @@ Requires:       SDL2
 
 
 %description
-Inochi2D is a framework for realtime 2D puppet animation which can be used for VTubing, 
-game development and digital animation. 
+This is a development test version of the software maintained by Grillo del Mal, use at your own risk.
+Inochi2D is a framework for realtime 2D puppet animation which can be used for VTubing, game development and digital animation.
 Inochi Creator is a tool that lets you create and edit Inochi2D puppets.
-This is an unbranded build, unsupported by the official project.
-This is a nightly build of Inochi Creator!
-Inochi Creator may crash unexpectedly and you will likely encounter bugs.
-Make sure to save and back up your work often!
 
 %prep
 %setup -c
@@ -105,32 +101,32 @@ dub build --skip-registry=all --compiler=ldc2 --config=barebones --build=debug
 
 %install
 install -d ${RPM_BUILD_ROOT}%{_bindir}
-install -p ./out/inochi-creator ${RPM_BUILD_ROOT}%{_bindir}/inochi-creator-nightly
+install -p ./out/inochi-creator ${RPM_BUILD_ROOT}%{_bindir}/inochi-creator-devtest
 
 install -d ${RPM_BUILD_ROOT}%{_datadir}/applications/
-install -p -m 644 %SOURCE1 ${RPM_BUILD_ROOT}%{_datadir}/applications/inochi-creator-nightly.desktop
+install -p -m 644 %SOURCE1 ${RPM_BUILD_ROOT}%{_datadir}/applications/inochi-creator-devtest.desktop
 desktop-file-validate \
-    ${RPM_BUILD_ROOT}%{_datadir}/applications/inochi-creator-nightly.desktop
+    ${RPM_BUILD_ROOT}%{_datadir}/applications/inochi-creator-devtest.desktop
 
 install -d ${RPM_BUILD_ROOT}%{_metainfodir}/
-install -p -m 644 %SOURCE2 ${RPM_BUILD_ROOT}%{_metainfodir}/inochi-creator-nightly.appdata.xml
+install -p -m 644 %SOURCE2 ${RPM_BUILD_ROOT}%{_metainfodir}/inochi-creator-devtest.appdata.xml
 appstream-util validate-relax --nonet \
-    ${RPM_BUILD_ROOT}%{_metainfodir}/inochi-creator-nightly.appdata.xml
+    ${RPM_BUILD_ROOT}%{_metainfodir}/inochi-creator-devtest.appdata.xml
 
 install -d $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/256x256/apps/
-install -p -m 644 %{SOURCE4} $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/256x256/apps/inochi-creator-nightly.png
+install -p -m 644 %{SOURCE4} $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/256x256/apps/inochi-creator-devtest.png
 
-install -d ${RPM_BUILD_ROOT}%{_datadir}/inochi-creator-nightly/
-install -p -m 644 %SOURCE3 ${RPM_BUILD_ROOT}%{_datadir}/inochi-creator-nightly/dub.selections.json
+install -d ${RPM_BUILD_ROOT}%{_datadir}/inochi-creator-devtest/
+install -p -m 644 %SOURCE3 ${RPM_BUILD_ROOT}%{_datadir}/inochi-creator-devtest/dub.selections.json
 
 
 %files
 %license LICENSE
-%{_bindir}/inochi-creator-nightly
-%{_metainfodir}/inochi-creator-nightly.appdata.xml
-%{_datadir}/applications/inochi-creator-nightly.desktop
-%{_datadir}/icons/hicolor/256x256/apps/inochi-creator-nightly.png
-%{_datadir}/inochi-creator-nightly/dub.selections.json
+%{_bindir}/inochi-creator-devtest
+%{_metainfodir}/inochi-creator-devtest.appdata.xml
+%{_datadir}/applications/inochi-creator-devtest.desktop
+%{_datadir}/icons/hicolor/256x256/apps/inochi-creator-devtest.png
+%{_datadir}/inochi-creator-devtest/dub.selections.json
 
 
 %changelog

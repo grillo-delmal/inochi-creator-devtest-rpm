@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-  <id>inochi-creator-nightly</id>
-  <name>Inochi Creator (Nightly)</name>
+  <id>inochi-creator-devtest</id>
+  <name>Inochi Creator (DevTest)</name>
   <summary>Tool to create and edit Inochi2D puppets</summary>
   <developer id="com.inochi2d">
     <name>Luna the Foxgirl</name>
   </developer>
-  <launchable type="desktop-id">inochi-creator-nightly.desktop</launchable>
+  <launchable type="desktop-id">inochi-creator-devtest.desktop</launchable>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>BSD-2-Clause</project_license>
   <description>
+    <p>This is a development test version of the software maintained by Grillo del Mal, use at your own risk.</p>
     <p>Inochi2D is a framework for realtime 2D puppet animation which can be used for VTubing, 
       game development and digital animation.</p>
     <p>Inochi Creator is a tool that lets you create and edit Inochi2D puppets.</p>
-    <p>This build of the project doesn't include the original branding assets 
-      and it's not supported by the original project authors. 
-      If you have any issue, contact the package maintainer.</p>
-    <p>This is a nightly build of Inochi Creator!</p>
-    <p>Inochi Creator may crash unexpectedly and you will likely encounter bugs.</p>
-    <p>Make sure to save and back up your work often!</p>
   </description>
   <screenshots>
     <screenshot type="default">
@@ -26,10 +21,8 @@
       <image type="source">https://user-images.githubusercontent.com/7032834/194462402-74c4a3e0-50ca-4b50-8e8d-164d97371f5a.png</image>
     </screenshot>
   </screenshots>
-  <url type="homepage">https://copr.fedorainfracloud.org/coprs/grillo-delmal/inochi2d/</url>
-  <url type="bugtracker">https://github.com/grillo-delmal/inochi-creator-rpm/issues</url>
-  <url type="help">https://github.com/grillo-delmal/inochi-creator-rpm</url>
-  <url type="donation">https://inochi2d.com/#donate</url>
+  <url type="homepage">https://github.com/grillo-delmal/inochi-creator-devtest</url>
+  <url type="bugtracker">https://github.com/grillo-delmal/inochi-creator-devtest/issues</url>
   <categories>
     <category>Graphics</category>
   </categories>
