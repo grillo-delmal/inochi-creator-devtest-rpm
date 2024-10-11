@@ -1,6 +1,6 @@
 %define inochi_creator_ver 0.8.6
-%define inochi_creator_dist 26
-%define inochi_creator_short 7d94731
+%define inochi_creator_dist 10
+%define inochi_creator_short 2d5a703
 
 %define inochi_creator_suffix ^%{inochi_creator_dist}.git%{inochi_creator_short}
 
@@ -49,6 +49,7 @@ Source4:        icon.png
 BuildRequires:  ldc
 BuildRequires:  dub
 BuildRequires:  jq
+BuildRequires:  ldc-libs
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
